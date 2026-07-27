@@ -167,21 +167,21 @@ final class Container implements ContainerInterface
         }
 
         return $reflection->newInstanceArgs($dependencies);
-        
-        public function register(ServiceProvider $provider): void
-        {
-            $provider->register();
+         
+    }
 
-            $this->providers[] = $provider;
-        }
+    public function register(ServiceProvider $provider): void
+    {
+        $provider->register();
+
+        $this->providers[] = $provider;
+    }
     
-        public function bootProviders(): void
-        {
-            foreach ($this->providers as $provider) {
+    public function bootProviders(): void
+    {
+         foreach ($this->providers as $provider) {
             $provider->boot();
-            }
-        }
-        
+         }
     }
 
 }
