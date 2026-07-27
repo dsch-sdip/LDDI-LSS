@@ -2,25 +2,17 @@
 
 declare(strict_types=1);
 
-namespace LSS\App\Modules;
+namespace LSS\Core;
 
 class ModuleManager
 {
-    /**
-     * @var ModuleInterface[]
-     */
-    private array $modules = [];
+    protected array $modules = [];
 
-    public function add(ModuleInterface $module): void
+    public function register(Module $module): void
     {
-        $this->modules[] = $module;
-    }
+        $this->modules[$module->name()] = $module;
 
-    public function register(): void
-    {
-        foreach ($this->modules as $module) {
-            $module->register();
-        }
+        $module->register();
     }
 
     public function boot(): void
@@ -30,11 +22,11 @@ class ModuleManager
         }
     }
 
-    /**
-     * Devuelve todos los módulos registrados.
-     *
-     * @return ModuleInterface[]
-     */
+    public function get(string $name): ?Module
+    {
+        return $this->modules[$name] ?? null;
+    }
+
     public function all(): array
     {
         return $this->modules;
