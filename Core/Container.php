@@ -26,6 +26,13 @@ final class Container implements ContainerInterface
      */
     private array $shared = [];
 
+    /**
+     * Providers registrados.
+     *
+     * @var ServiceProvider[]
+     */
+    private array $providers = [];
+
     public function bind(string $abstract, callable|string $concrete): void
     {
         $this->bindings[$abstract] = $concrete;
@@ -160,5 +167,21 @@ final class Container implements ContainerInterface
         }
 
         return $reflection->newInstanceArgs($dependencies);
+        
+        public function register(ServiceProvider $provider): void
+        {
+            $provider->register();
+
+            $this->providers[] = $provider;
+        }
+    
+        public function bootProviders(): void
+        {
+            foreach ($this->providers as $provider) {
+            $provider->boot();
+            }
+        }
+        
     }
+
 }
