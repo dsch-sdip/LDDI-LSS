@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace LSS\Core;
 
+use LSS\Providers\CoreProvider;
+
 /**
  * =============================================================================
  * Application
@@ -21,7 +23,12 @@ final class Application
     public static function boot(): void
     {
         Config::load();
-        self::container();
+        
+        $container = self::container();
+
+        self::registerProvider(
+           new CoreProvider($container)
+        );
 
         /**
          * Aquí se inicializarán posteriormente:
