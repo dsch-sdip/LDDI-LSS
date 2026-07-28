@@ -11,10 +11,13 @@ namespace LSS\Core;
  * Main entry point of the Framework.
  */
 
-private static ?Container $container = null;
 
 final class Application
 {
+
+    private static ?Container $container = null;
+    private static array $providers = [];
+
     public static function boot(): void
     {
         Config::load();
@@ -36,6 +39,11 @@ final class Application
           self::$container = new Container();
         }
     return self::$container;
+    }
+
+    public static function registerProvider(ServiceProvider $provider): void
+    {
+       self::$providers[] = $provider;
     }
     
 }
